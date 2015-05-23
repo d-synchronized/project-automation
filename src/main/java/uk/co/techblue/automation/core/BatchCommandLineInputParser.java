@@ -1,4 +1,4 @@
-package uk.co.techblue.automation.core.command;
+package uk.co.techblue.automation.core;
 
 import java.util.AbstractMap;
 import java.util.HashMap;

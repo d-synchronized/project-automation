@@ -11,8 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import uk.co.techblue.automation.core.AutomationExecutor;
+import uk.co.techblue.automation.core.BatchCommandLineInputParser;
 import uk.co.techblue.automation.core.ModuleInfoInitializerFactory;
-import uk.co.techblue.automation.core.command.BatchCommandLineInputParser;
 import uk.co.techblue.automation.dto.ExecutionContext;
 
 /** The Constant log. */
