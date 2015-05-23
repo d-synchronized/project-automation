@@ -19,9 +19,24 @@ public class AutomationConstant {
     public static final String COMMAND_GENERATE = "generate";
     
     /** The Constant MAVEN_MODEL_VERSION. */
-    protected final static String MAVEN_MODEL_VERSION = "4.0.0";
+    public final static String MAVEN_MODEL_VERSION = "4.0.0";
     
     /** The Constant PACKAGING_POM. */
-    protected final static String PACKAGING_POM = "pom";
+    public final static String PACKAGING_POM = "pom";
+    
+    /** The Constant MAVEN_SRC_FOLDER. */
+    public final static String MAVEN_SRC_FOLDER = "src";
+    
+    /** The Constant MAVEN_MAIN_FOLDER. */
+    public final static String MAVEN_MAIN_FOLDER = "main";
+    
+    /** The Constant MAVEN_TEST_FOLDER. */
+    public final static String MAVEN_TEST_FOLDER = "test";
+    
+    /** The Constant MAVEN_JAVA_FOLDER. */
+    public final static String MAVEN_JAVA_FOLDER = "java";
+    
+    /** The Constant MAVEN_RESOURCES_FOLDER. */
+    public final static String MAVEN_RESOURCES_FOLDER = "resources";
 
 }
