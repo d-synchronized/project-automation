@@ -9,13 +9,47 @@
     <name>project-automation</name>
     <description>project-automation</description>
 
+    <!-- All project properties defined here -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.7</java.version>
     </properties>
 
+    <!-- All project dependencies defined here -->
     <dependencies>
-       <dependency>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-model</artifactId>
+            <version>3.3.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.14.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.6</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
@@ -23,6 +57,7 @@
         </dependency>
     </dependencies>
 
+    <!-- Project build starts here -->
     <build>
     <!-- Resources goes here -->
         <resources>
@@ -78,4 +113,33 @@
             </plugin>
         </plugins>
     </build>
+
+    <scm>
+        <connection>scm:git:git@github.com:d-synchronized/project-automation.git</connection>
+        <developerConnection>scm:git:git@github.com:d-synchronized/project-automation.git</developerConnection>
+        <url>https://github.com/d-synchronized/project-automation</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Dishant Anand</name>
+            <email>dishant.anand@techblue.co.uk</email>
+            <timezone>+5:30</timezone>
+            <roles>
+                <role>Software Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <contributors>
+        <contributor>
+            <name>Dishant Anand</name>
+            <email>dishant.anand@techblue.co.uk</email>
+            <timezone>+5:30</timezone>
+            <roles>
+                <role>Software Developer</role>
+            </roles>
+        </contributor>
+    </contributors>
+
 </project>
