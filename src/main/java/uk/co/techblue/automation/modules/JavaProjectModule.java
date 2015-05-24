@@ -57,12 +57,16 @@ public class JavaProjectModule extends ProjectModule {
             parentModule.getPom().setDependencyManagement(dependencyManagement);
         }
         
-        for(final FrameworkPackage frameworkPackage : frameworkPackages){
-            parentModule.updateDependencies(frameworkPackage.getDependenciesListWithVersion(), parentModule.getPom().getDependencies());
+        if(frameworkPackages!=null){
+            for(final FrameworkPackage frameworkPackage : frameworkPackages){
+                parentModule.updateDependencies(frameworkPackage.getDependenciesListWithVersion(), parentModule.getPom().getDependencies());
+            }
         }
         
-        for(final ThirdPartyLibraryPackage thirdPartyLibraryPackage : thirdPartyLibraryPackages){
-            parentModule.updateDependency(thirdPartyLibraryPackage.getDependencyInformation(false));
+        if(thirdPartyLibraryPackages!=null){
+            for(final ThirdPartyLibraryPackage thirdPartyLibraryPackage : thirdPartyLibraryPackages){
+                parentModule.updateDependency(thirdPartyLibraryPackage.getDependencyInformation(false));
+            } 
         }
     }
 
@@ -71,7 +75,9 @@ public class JavaProjectModule extends ProjectModule {
      * 
      * @throws IOException Signals that an I/O exception has occurred.
      */
+    @Override
     protected void generateFolders() throws IOException {
+        super.generateFolders();
         log.info("Generating folder structure for Java Archive (jar) project");
         generateFolder(targetFolder + "/" + AutomationConstant.MAVEN_SRC_FOLDER);
 

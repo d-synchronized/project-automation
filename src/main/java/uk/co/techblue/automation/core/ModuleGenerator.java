@@ -11,6 +11,7 @@ import uk.co.techblue.automation.modules.WebProjectModule;
  * The Class ModuleGenerator.
  */
 public class ModuleGenerator {
+    
 
     /**
      * Generate project module.
@@ -19,19 +20,35 @@ public class ModuleGenerator {
      * @param packagingInfo the packaging info
      * @return the project module
      */
-    public static ProjectModule generateProjectModule(final String moduleName, final String packagingInfo) {
+    public static ProjectModule generateProjectModule(final String moduleName, final String packagingInfo,final String projectFolder) {
         switch (packagingInfo) {
             case AutomationConstant.PACKAGING_JAR:
-                return new JavaProjectModule();
+                final ProjectModule jarProjectModule = new JavaProjectModule();
+                jarProjectModule.setBaseFolder(projectFolder);
+                jarProjectModule.setProjectFolder(moduleName);
+                jarProjectModule.setPackaging(AutomationConstant.PACKAGING_JAR);
+                return jarProjectModule;
 
             case AutomationConstant.PACKAGING_WAR:
-                return new WebProjectModule();
+                final ProjectModule warProjectModule = new WebProjectModule();
+                warProjectModule.setBaseFolder(projectFolder);
+                warProjectModule.setProjectFolder(moduleName);
+                warProjectModule.setPackaging(AutomationConstant.PACKAGING_WAR);
+                return warProjectModule;
 
             case AutomationConstant.PACKAGING_EAR:
-                return new EarProjectModule();
+                final ProjectModule earProjectModule = new EarProjectModule();
+                earProjectModule.setBaseFolder(projectFolder);
+                earProjectModule.setProjectFolder(moduleName);
+                earProjectModule.setPackaging(AutomationConstant.PACKAGING_EAR);
+                return earProjectModule;
 
             case AutomationConstant.PACKAGING_POM:
-                return new MasterProjectModule();
+                final ProjectModule masterProjectModule = new MasterProjectModule();
+                masterProjectModule.setBaseFolder(projectFolder);
+                masterProjectModule.setProjectFolder(moduleName);
+                masterProjectModule.setPackaging(AutomationConstant.PACKAGING_POM);
+                return masterProjectModule;
 
             default:
                 return null;

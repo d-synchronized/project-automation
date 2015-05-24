@@ -134,6 +134,15 @@ public class ProjectModule {
             parentModule.getPom().getModules().add(projectFolder);
         }
     }
+    
+    /**
+     * Generate folders.
+     * 
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
+    protected void generateFolders() throws IOException{
+        generateFolder(targetFolder);
+    }
 
     /**
      * Generate folder.
@@ -154,7 +163,7 @@ public class ProjectModule {
      */
     public void writeData(MavenXpp3Writer mavenXpp3Writer) throws IOException {
         targetFolder = baseFolder + "/" + projectFolder;
-        generateFolder(targetFolder);
+        generateFolders();
         final FileWriter fileWriter = new FileWriter(targetFolder + "/pom.xml");
         mavenXpp3Writer.write(fileWriter, pom);
     }
