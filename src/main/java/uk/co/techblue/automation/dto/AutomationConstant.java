@@ -14,28 +14,37 @@ public class AutomationConstant {
 
     /** The Constant PROJECT_VERSION. */
     public final static String PROJECT_VERSION = "projectVersion";
-    
+
     /** The Constant COMMAND_GENERATE. */
     public static final String COMMAND_GENERATE = "generate";
-    
+
     /** The Constant MAVEN_MODEL_VERSION. */
     public final static String MAVEN_MODEL_VERSION = "4.0.0";
-    
+
     /** The Constant PACKAGING_POM. */
     public final static String PACKAGING_POM = "pom";
-    
+
+    /** The Constant PACKAGING_JAR. */
+    public final static String PACKAGING_JAR = "jar";
+
+    /** The Constant PACKAGING_WAR. */
+    public final static String PACKAGING_WAR = "war";
+
+    /** The Constant PACKAGING_EAR. */
+    public final static String PACKAGING_EAR = "ear";
+
     /** The Constant MAVEN_SRC_FOLDER. */
     public final static String MAVEN_SRC_FOLDER = "src";
-    
+
     /** The Constant MAVEN_MAIN_FOLDER. */
     public final static String MAVEN_MAIN_FOLDER = "main";
-    
+
     /** The Constant MAVEN_TEST_FOLDER. */
     public final static String MAVEN_TEST_FOLDER = "test";
-    
+
     /** The Constant MAVEN_JAVA_FOLDER. */
     public final static String MAVEN_JAVA_FOLDER = "java";
-    
+
     /** The Constant MAVEN_RESOURCES_FOLDER. */
     public final static String MAVEN_RESOURCES_FOLDER = "resources";
 

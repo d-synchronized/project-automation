@@ -1,5 +1,6 @@
 package uk.co.techblue.automation.modules;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,11 +15,18 @@ import lombok.Data;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Parent;
+import org.apache.maven.model.io.xpp3.MavenXpp3Writer;
 
 import uk.co.techblue.automation.dto.AutomationConstant;
 
 /**
  * The Class ProjectModule.
+ */
+
+/*
+ * (non-Javadoc)
+ * 
+ * @see java.lang.Object#toString()
  */
 @Data
 public class ProjectModule {
@@ -53,6 +61,18 @@ public class ProjectModule {
     protected void addDependencies(final List<Dependency> dependencies) {
         final List<Dependency> existingDependencies = this.pom.getDependencies();
         updateDependencies(dependencies, existingDependencies);
+    }
+
+    /**
+     * Update dependency.
+     * 
+     * @param dependency the dependency
+     */
+    protected void updateDependency(final Dependency dependency) {
+        final Set<Dependency> existingDependencies = new HashSet<>(pom.getDependencies());
+        existingDependencies.add(dependency);
+        final List<Dependency> updatedDependenciesList = new ArrayList<>(existingDependencies);
+        pom.setDependencies(updatedDependenciesList);
     }
 
     /**
@@ -124,6 +144,19 @@ public class ProjectModule {
     protected void generateFolder(final String folderName) throws IOException {
         final Path modulePath = Paths.get(folderName);
         Files.createDirectories(modulePath);
+    }
+
+    /**
+     * Write data.
+     * 
+     * @param mavenXpp3Writer the maven xpp3 writer
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
+    public void writeData(MavenXpp3Writer mavenXpp3Writer) throws IOException {
+        targetFolder = baseFolder + "/" + projectFolder;
+        generateFolder(targetFolder);
+        final FileWriter fileWriter = new FileWriter(targetFolder + "/pom.xml");
+        mavenXpp3Writer.write(fileWriter, pom);
     }
 
 }

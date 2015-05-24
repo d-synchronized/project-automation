@@ -1,10 +1,15 @@
 package uk.co.techblue.automation.core.command;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import uk.co.techblue.automation.core.ModuleGenerator;
 import uk.co.techblue.automation.core.ModuleInfoInitializerFactory;
 import uk.co.techblue.automation.dto.AutomationConstant;
 import uk.co.techblue.automation.dto.ExecutionContext;
+import uk.co.techblue.automation.modules.ProjectModule;
 
 /**
  * The Class GenerateCommand.
@@ -27,7 +32,13 @@ public class GenerateCommand extends AbstractExecutionCommand {
     @Override
     public void execute(ExecutionContext context) {
         final Map<String,String> moduleInfos = ModuleInfoInitializerFactory.fetchModuleInfoMap();
-        System.out.println(moduleInfos);
+        final List<ProjectModule> projectModules = new ArrayList<ProjectModule>();
+        for(final Map.Entry<String,String> moduleInfoEntrySet : moduleInfos.entrySet()){
+            final String moduleName = moduleInfoEntrySet.getKey();
+            final String packaging = moduleInfoEntrySet.getValue();
+            final ProjectModule projectModule = ModuleGenerator.generateProjectModule(moduleName, packaging);
+            projectModules.add(projectModule);
+        }
     }
 
 }

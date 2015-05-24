@@ -1,15 +1,70 @@
 package uk.co.techblue.automation.modules;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.apache.maven.model.DependencyManagement;
+
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.co.techblue.automation.dto.AutomationConstant;
+import uk.co.techblue.automation.frameworks.FrameworkPackage;
+import uk.co.techblue.automation.library.ThirdPartyLibraryPackage;
 
 /**
  * The Class JavaProjectModule.
  */
+
+/** The Constant log. */
 @Slf4j
+@NoArgsConstructor
 public class JavaProjectModule extends ProjectModule {
+
+    /** The framework packages. */
+    private List<FrameworkPackage> frameworkPackages;
+
+    /** The third party library packages. */
+    private List<ThirdPartyLibraryPackage> thirdPartyLibraryPackages;
+
+    /**
+     * Instantiates a new java project module.
+     * 
+     * @param frameworkPackages the framework packages
+     * @param thirdPartyLibraryPackages the third party library packages
+     */
+    public JavaProjectModule(final List<FrameworkPackage> frameworkPackages, final List<ThirdPartyLibraryPackage> thirdPartyLibraryPackages) {
+        this.frameworkPackages = frameworkPackages;
+        for (final FrameworkPackage frameworkPackage : frameworkPackages) {
+            addDependencies(frameworkPackage.getDependenciesList());
+        }
+        this.thirdPartyLibraryPackages = thirdPartyLibraryPackages;
+        for (final ThirdPartyLibraryPackage thirdPartyLibraryPackage : thirdPartyLibraryPackages) {
+            updateDependency(thirdPartyLibraryPackage.getDependencyInformation(false));
+        }
+        packaging = AutomationConstant.PACKAGING_JAR;
+    }
+
+    /* (non-Javadoc)
+     * @see uk.co.techblue.automation.modules.ProjectModule#setParentModule(uk.co.techblue.automation.modules.ProjectModule)
+     */
+    @Override
+    public void setParentModule(final ProjectModule parentModule) {
+        super.setParentModule(parentModule);
+        
+        DependencyManagement dependencyManagement = this.getPom().getDependencyManagement();
+        if(dependencyManagement == null){
+            dependencyManagement = new DependencyManagement();
+            parentModule.getPom().setDependencyManagement(dependencyManagement);
+        }
+        
+        for(final FrameworkPackage frameworkPackage : frameworkPackages){
+            parentModule.updateDependencies(frameworkPackage.getDependenciesListWithVersion(), parentModule.getPom().getDependencies());
+        }
+        
+        for(final ThirdPartyLibraryPackage thirdPartyLibraryPackage : thirdPartyLibraryPackages){
+            parentModule.updateDependency(thirdPartyLibraryPackage.getDependencyInformation(false));
+        }
+    }
 
     /**
      * Generate folders.
@@ -19,7 +74,7 @@ public class JavaProjectModule extends ProjectModule {
     protected void generateFolders() throws IOException {
         log.info("Generating folder structure for Java Archive (jar) project");
         generateFolder(targetFolder + "/" + AutomationConstant.MAVEN_SRC_FOLDER);
-        
+
         generateFolder(targetFolder + "/" + AutomationConstant.MAVEN_SRC_FOLDER + "/" + AutomationConstant.MAVEN_MAIN_FOLDER);
         generateFolder(targetFolder + "/" + AutomationConstant.MAVEN_SRC_FOLDER + "/" + AutomationConstant.MAVEN_MAIN_FOLDER + "/" + AutomationConstant.MAVEN_JAVA_FOLDER);
         generateFolder(targetFolder + "/" + AutomationConstant.MAVEN_SRC_FOLDER + "/" + AutomationConstant.MAVEN_MAIN_FOLDER + "/" + AutomationConstant.MAVEN_RESOURCES_FOLDER);

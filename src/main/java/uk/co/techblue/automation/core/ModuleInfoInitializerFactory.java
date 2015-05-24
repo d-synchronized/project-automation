@@ -40,5 +40,7 @@ public class ModuleInfoInitializerFactory {
         fetchModuleInfoMap();
         moduleInfos.put(moduleName, modulePackaging);
     }
+    
+    
 
 }
