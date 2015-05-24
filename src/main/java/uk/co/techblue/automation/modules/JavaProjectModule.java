@@ -33,15 +33,33 @@ public class JavaProjectModule extends ProjectModule {
      * @param thirdPartyLibraryPackages the third party library packages
      */
     public JavaProjectModule(final List<FrameworkPackage> frameworkPackages, final List<ThirdPartyLibraryPackage> thirdPartyLibraryPackages) {
+        setFrameworkPackages(frameworkPackages);
+        setThirdPartyLibraryPackages(thirdPartyLibraryPackages);
+        packaging = AutomationConstant.PACKAGING_JAR;
+    }
+    
+    /**
+     * Sets the framework packages.
+     * 
+     * @param frameworkPackages the new framework packages
+     */
+    public void setFrameworkPackages(final List<FrameworkPackage> frameworkPackages){
         this.frameworkPackages = frameworkPackages;
         for (final FrameworkPackage frameworkPackage : frameworkPackages) {
             addDependencies(frameworkPackage.getDependenciesList());
         }
+    }
+    
+    /**
+     * Sets the third party library packages.
+     * 
+     * @param thirdPartyLibraryPackages the new third party library packages
+     */
+    public void setThirdPartyLibraryPackages(final List<ThirdPartyLibraryPackage> thirdPartyLibraryPackages){
         this.thirdPartyLibraryPackages = thirdPartyLibraryPackages;
         for (final ThirdPartyLibraryPackage thirdPartyLibraryPackage : thirdPartyLibraryPackages) {
             updateDependency(thirdPartyLibraryPackage.getDependencyInformation(false));
         }
-        packaging = AutomationConstant.PACKAGING_JAR;
     }
 
     /* (non-Javadoc)
