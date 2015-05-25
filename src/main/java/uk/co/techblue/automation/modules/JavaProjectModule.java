@@ -20,9 +20,6 @@ import uk.co.techblue.automation.library.ThirdPartyLibraryPackage;
 @NoArgsConstructor
 public class JavaProjectModule extends ProjectModule {
 
-    /** The framework packages. */
-    private List<FrameworkPackage> frameworkPackages;
-
     /** The third party library packages. */
     private List<ThirdPartyLibraryPackage> thirdPartyLibraryPackages;
 
@@ -38,17 +35,6 @@ public class JavaProjectModule extends ProjectModule {
         packaging = AutomationConstant.PACKAGING_JAR;
     }
     
-    /**
-     * Sets the framework packages.
-     * 
-     * @param frameworkPackages the new framework packages
-     */
-    public void setFrameworkPackages(final List<FrameworkPackage> frameworkPackages){
-        this.frameworkPackages = frameworkPackages;
-        for (final FrameworkPackage frameworkPackage : frameworkPackages) {
-            addDependencies(frameworkPackage.getDependenciesList());
-        }
-    }
     
     /**
      * Sets the third party library packages.

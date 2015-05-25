@@ -19,5 +19,8 @@ public class AutomationExceptionConstant {
 
     /** The Constant COULD_NOT_WRITE_FILE. */
     public static final String COULD_NOT_WRITE_FILE = "605";
+    
+    /** The Constant INTERNAL_SERVER_ERROR. */
+    public static final String INTERNAL_SERVER_ERROR = "606";
 
 }

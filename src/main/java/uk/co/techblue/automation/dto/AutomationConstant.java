@@ -48,4 +48,16 @@ public class AutomationConstant {
     /** The Constant MAVEN_RESOURCES_FOLDER. */
     public final static String MAVEN_RESOURCES_FOLDER = "resources";
 
+    /** The Constant MAVEN_META_INF_FOLDER. */
+    public final static String MAVEN_META_INF_FOLDER = "META-INF";
+
+    /** The Constant MAVEN_WEB_APP_FOLDER. */
+    public final static String MAVEN_WEB_APP_FOLDER = "webapp";
+
+    /** The Constant MAVEN_WEB_INF_FOLDER. */
+    public final static String MAVEN_WEB_INF_FOLDER = "WEB-INF";
+    
+    /** The Constant WEB_XML_FILE. */
+    public final static String WEB_XML_FILE="web.xml";
+
 }

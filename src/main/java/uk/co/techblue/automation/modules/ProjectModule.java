@@ -1,7 +1,9 @@
 package uk.co.techblue.automation.modules;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
@@ -18,6 +21,7 @@ import org.apache.maven.model.Parent;
 import org.apache.maven.model.io.xpp3.MavenXpp3Writer;
 
 import uk.co.techblue.automation.dto.AutomationConstant;
+import uk.co.techblue.automation.frameworks.FrameworkPackage;
 
 /**
  * The Class ProjectModule.
@@ -29,6 +33,7 @@ import uk.co.techblue.automation.dto.AutomationConstant;
  * @see java.lang.Object#toString()
  */
 @Data
+@Slf4j
 public class ProjectModule {
 
     /** The project folder. */
@@ -46,11 +51,26 @@ public class ProjectModule {
     /** The pom. */
     protected Model pom;
 
+    /** The framework packages. */
+    protected List<FrameworkPackage> frameworkPackages;
+
     /**
      * Instantiates a new project module.
      */
     public ProjectModule() {
         packaging = AutomationConstant.PACKAGING_POM;
+    }
+
+    /**
+     * Sets the framework packages.
+     * 
+     * @param frameworkPackages the new framework packages
+     */
+    public void setFrameworkPackages(final List<FrameworkPackage> frameworkPackages) {
+        this.frameworkPackages = frameworkPackages;
+        for (final FrameworkPackage frameworkPackage : frameworkPackages) {
+            addDependencies(frameworkPackage.getDependenciesList());
+        }
     }
 
     /**
@@ -134,13 +154,13 @@ public class ProjectModule {
             parentModule.getPom().getModules().add(projectFolder);
         }
     }
-    
+
     /**
      * Generate folders.
      * 
      * @throws IOException Signals that an I/O exception has occurred.
      */
-    protected void generateFolders() throws IOException{
+    protected void generateFolders() throws IOException {
         generateFolder(targetFolder);
     }
 
@@ -161,11 +181,29 @@ public class ProjectModule {
      * @param mavenXpp3Writer the maven xpp3 writer
      * @throws IOException Signals that an I/O exception has occurred.
      */
-    public void writeData(MavenXpp3Writer mavenXpp3Writer) throws IOException {
+    public void writeData(final MavenXpp3Writer mavenXpp3Writer) throws IOException {
         targetFolder = baseFolder + "/" + projectFolder;
         generateFolders();
         final FileWriter fileWriter = new FileWriter(targetFolder + "/pom.xml");
         mavenXpp3Writer.write(fileWriter, pom);
+    }
+
+    /**
+     * Write file.
+     * 
+     * @param content the content
+     * @param fileName the file name
+     * @throws IOException 
+     */
+    protected void writeFile(final String content, final String fileName) throws IOException {
+        log.info("Writing file '{}'", fileName);
+        final Charset charset = Charset.forName("UTF-8");
+        final Path filePath = Paths.get(fileName);
+        final Path file = Files.createFile(filePath);
+        BufferedWriter writer = Files.newBufferedWriter(file, charset);
+        writer.write(content);
+        writer.close();
+        log.info("file '{}' successfully written", fileName);
     }
 
 }
