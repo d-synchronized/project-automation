@@ -1,8 +1,10 @@
 package uk.co.techblue.automation.modules;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.maven.model.Dependency;
 import org.apache.maven.model.DependencyManagement;
 
 import lombok.NoArgsConstructor;
@@ -63,13 +65,15 @@ public class JavaProjectModule extends ProjectModule {
         
         if(frameworkPackages!=null){
             for(final FrameworkPackage frameworkPackage : frameworkPackages){
-                parentModule.updateDependencies(frameworkPackage.getDependenciesListWithVersion(), parentModule.getPom().getDependencies());
+                parentModule.updatedDependencyManagement(frameworkPackage.getDependenciesListWithVersion());
             }
         }
         
         if(thirdPartyLibraryPackages!=null){
             for(final ThirdPartyLibraryPackage thirdPartyLibraryPackage : thirdPartyLibraryPackages){
-                parentModule.updateDependency(thirdPartyLibraryPackage.getDependencyInformation(false));
+                final List<Dependency> dependencies = new ArrayList<Dependency>();
+                dependencies.add(thirdPartyLibraryPackage.getDependencyInformation(true));
+                parentModule.updatedDependencyManagement(dependencies);
             } 
         }
     }

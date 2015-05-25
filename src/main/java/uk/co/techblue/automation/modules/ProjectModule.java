@@ -1,9 +1,8 @@
 package uk.co.techblue.automation.modules;
 
-import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,9 +14,11 @@ import java.util.Set;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Parent;
+import org.apache.maven.model.Plugin;
 import org.apache.maven.model.io.xpp3.MavenXpp3Writer;
 
 import uk.co.techblue.automation.dto.AutomationConstant;
@@ -54,6 +55,9 @@ public class ProjectModule {
     /** The framework packages. */
     protected List<FrameworkPackage> frameworkPackages;
 
+    /** The plugins. */
+    protected List<Plugin> plugins;
+
     /**
      * Instantiates a new project module.
      */
@@ -71,6 +75,58 @@ public class ProjectModule {
         for (final FrameworkPackage frameworkPackage : frameworkPackages) {
             addDependencies(frameworkPackage.getDependenciesList());
         }
+    }
+
+    /**
+     * Sets the plugins.
+     * 
+     * @param plugins the new plugins
+     */
+    public void setPlugins(final List<Plugin> plugins) {
+        this.plugins = plugins;
+        updatePluginInformation(plugins, this.getPom().getBuild().getPlugins());
+    }
+
+    /**
+     * Update plugin information.
+     * 
+     * @param newPlugins the new plugins
+     * @param existingPlugins the existing plugins
+     * @return the list
+     */
+    protected List<Plugin> updatePluginInformation(final List<Plugin> newPlugins, final List<Plugin> existingPlugins) {
+        final Set<Plugin> set = new HashSet<>(existingPlugins);
+        set.addAll(newPlugins);
+
+        final List<Plugin> updatedPluginList = new ArrayList<>(set);
+        this.getPom().getBuild().setPlugins(updatedPluginList);
+        return updatedPluginList;
+    }
+
+    /**
+     * Update plugin management.
+     * 
+     * @param newPlugins the new plugins
+     */
+    public void updatePluginManagement(final List<Plugin> newPlugins) {
+        final List<Plugin> existingPlugins = this.pom.getBuild().getPluginManagement().getPlugins();
+        final List<Plugin> updatedPlugins = updatePlugins(newPlugins, existingPlugins);
+        this.pom.getBuild().getPluginManagement().setPlugins(updatedPlugins);
+    }
+
+    /**
+     * Update plugins.
+     * 
+     * @param newPlugins the new plugins
+     * @param existingPlugins the existing plugins
+     * @return the list
+     */
+    protected List<Plugin> updatePlugins(final List<Plugin> newPlugins, final List<Plugin> existingPlugins) {
+        final Set<Plugin> set = new HashSet<>(existingPlugins);
+        set.addAll(newPlugins);
+
+        final List<Plugin> updatedPluginList = new ArrayList<>(set);
+        return updatedPluginList;
     }
 
     /**
@@ -193,16 +249,12 @@ public class ProjectModule {
      * 
      * @param content the content
      * @param fileName the file name
-     * @throws IOException 
+     * @throws IOException
      */
     protected void writeFile(final String content, final String fileName) throws IOException {
         log.info("Writing file '{}'", fileName);
-        final Charset charset = Charset.forName("UTF-8");
-        final Path filePath = Paths.get(fileName);
-        final Path file = Files.createFile(filePath);
-        BufferedWriter writer = Files.newBufferedWriter(file, charset);
-        writer.write(content);
-        writer.close();
+        final File file = new File(fileName);
+        FileUtils.writeStringToFile(file, content,"UTF-8");
         log.info("file '{}' successfully written", fileName);
     }
 
